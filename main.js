@@ -1,14 +1,18 @@
 const menuEmail = document.querySelector(".navbar-email");
 const desktopMenu = document.querySelector(".desktop-menu");
 const shoppingCartMenu = document.querySelector(".navbar-shopping-cart");
+const productDetailCloseIcon = document.querySelector(".product-detail-close");
+
 const burgerMenu = document.querySelector(".menu");
 const mobileMenu = document.querySelector(".mobile-menu");
 const shoppingCartContainer = document.querySelector(".product-detail-cart");
 const cardsContainer = document.querySelector(".cards-container");
+const productDetailContainer = document.querySelector(".product-detail");
 
 menuEmail.addEventListener("click", toggleDesktopMenu);
 burgerMenu.addEventListener("click", toggleMobileMenu);
 shoppingCartMenu.addEventListener("click", toggleShoppingCartContainer);
+productDetailCloseIcon.addEventListener("click", closeProductDetailAside);
 
 function toggleDesktopMenu() {
   const isShoppingCartContainerMenuClosed = shoppingCartContainer.classList.contains("inactive");
@@ -26,6 +30,9 @@ function toggleMobileMenu() {
   if (!isShoppingCartContainerMenuClosed) {
     shoppingCartContainer.classList.add("inactive");
   }
+
+  closeProductDetailAside();
+      
   mobileMenu.classList.toggle("inactive");
 }
 
@@ -36,7 +43,23 @@ function toggleShoppingCartContainer() {
     mobileMenu.classList.add("inactive");
   }
 
+  const isProductDetailAsideClosed = productDetailContainer.classList.contains("inactive");
+
+  if (!isProductDetailAsideClosed) {
+    productDetailContainer.classList.add("inactive");
+  }
+
   shoppingCartContainer.classList.toggle("inactive"); 
+}
+
+function openProductDetailAside() {
+  shoppingCartContainer.classList.add("inactive");
+  
+  productDetailContainer.classList.remove("inactive");
+}
+
+function closeProductDetailAside() {
+  productDetailContainer.classList.add("inactive");
 }
 
 const productList = [];
@@ -56,7 +79,7 @@ productList.push({
   image: "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=400"
 });
 
-function desplegarProductos(productsArray) {
+function renderProducts(productsArray) {
   for (let product of productsArray) {
     /*Se crean los elementos HTML con sus respectivas valore obtenidos de la lista
     de productos */
@@ -65,6 +88,7 @@ function desplegarProductos(productsArray) {
   
     const productImage = document.createElement("img");
     productImage.setAttribute("src", product.image);
+    productImage.addEventListener("click", openProductDetailAside);
   
     const productInfo = document.createElement("div");
     productInfo.classList.add("product-info");
@@ -97,4 +121,4 @@ function desplegarProductos(productsArray) {
   }
 }
 
-desplegarProductos(productList);
+renderProducts(productList);
